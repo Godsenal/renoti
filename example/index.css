@@ -1,0 +1,40 @@
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes slide-left-start {
+  0% {
+    transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slide-left-end {
+  0% {
+    transform: translateX(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.slide_left {
+  opacity: 0;
+  transform: translateX(-1000px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+.slide_left_mounted {
+  opacity: 1;
+  transform: translateX(0px);
+  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
