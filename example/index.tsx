@@ -1,26 +1,33 @@
-import React, { Component, Fragment, CSSProperties } from 'react';
+import React, { Component, CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
+import { Entity } from './components';
 import * as Noti from '../src';
 import './index.css';
 
 const notifier = Noti.createNotifier();
 
-const POSITION = [
-  'top-left',
-  'top-center',
-  'top-right',
-  'bottom-left',
-  'bottom-center',
-  'bottom-right',
+type BasicType = 'type' | 'animation' | 'position' | 'message';
+type CheckType =
+  | 'disablePortal'
+  | 'pauseOnHover'
+  | 'closeOnClick'
+  | 'closeCallback'
+  | 'showCloseBtn';
+const CHECK: CheckType[] = [
+  'closeOnClick',
+  'pauseOnHover',
+  'disablePortal',
+  'closeCallback',
+  'showCloseBtn',
 ];
-const ANIMATION = ['pop', 'rotate', 'flip', 'slide', ''];
-type CheckType = 'disablePortal' | 'pauseOnHover' | 'closeOnClick';
-const CHECK: CheckType[] = ['closeOnClick', 'pauseOnHover', 'disablePortal'];
 interface AppState {
+  message: string;
   type: string;
   disablePortal: boolean;
   pauseOnHover: boolean;
   closeOnClick: boolean;
+  closeCallback: boolean;
+  showCloseBtn: boolean;
   timeout: number;
   animation: string;
   position: string;
@@ -29,23 +36,21 @@ interface AppState {
 class App extends Component<{}, AppState> {
   state: AppState = {
     type: 'default',
+    message: 'hello ! 👋',
     disablePortal: false,
     pauseOnHover: false,
     closeOnClick: true,
+    closeCallback: false,
+    showCloseBtn: false,
     timeout: 3000,
-    animation: 'slide_left',
+    animation: 'pop',
     position: 'top-left',
     style: {},
   };
-  handleAnimation = (e: React.ChangeEvent<HTMLSelectElement>) => {
+  handleBasic = (basic: BasicType) => (value: string) => {
     this.setState({
-      animation: e.target.value,
-    });
-  };
-  handleDisablePortal = (e: React.ChangeEvent<HTMLInputElement>) => {
-    this.setState({
-      disablePortal: e.target.checked,
-    });
+      [basic]: value,
+    } as Pick<AppState, BasicType>);
   };
   handleCheck = (check: CheckType) => (
     e: React.ChangeEvent<HTMLInputElement>,
@@ -53,11 +58,6 @@ class App extends Component<{}, AppState> {
     this.setState({
       [check]: e.target.checked,
     } as Pick<AppState, CheckType>);
-  };
-  handlePosition = (position: string) => () => {
-    this.setState({
-      position,
-    });
   };
   handleTimeout = (e: React.ChangeEvent<HTMLInputElement>) => {
     this.setState({
@@ -67,43 +67,56 @@ class App extends Component<{}, AppState> {
   notify = () => {
     notifier.notify({
       ...(this.state as any),
-      message: 'Hello!',
+      onClose: this.state.closeCallback && this.onClose,
     });
   };
   closeAll = () => {
     notifier.closeAll();
   };
+  onClose = () => {
+    alert('Noti closed!');
+  };
   render() {
-    const { animation, disablePortal, position, timeout } = this.state;
+    const {
+      disablePortal,
+      position,
+      animation,
+      type,
+      timeout,
+      message,
+    } = this.state;
     return (
-      <div className="App">
-        <header className="App-header">
-          <div>
-            {POSITION.map((pos, i) => (
-              <Fragment key={i}>
-                <input
-                  key={i}
-                  type="radio"
-                  id={pos}
-                  name={pos}
-                  value={pos}
-                  checked={position === pos}
-                  onChange={this.handlePosition(pos)}
-                />
-                <label htmlFor={pos}>{pos}</label>
-              </Fragment>
-            ))}
+      <div className="container">
+        <h1 className="title">renoti</h1>
+        <div className="entities">
+          <div className="entity fullwidth center">
+            <h2 className="sub_header">Message</h2>
+            <input
+              className="message"
+              placeholder="type your message!"
+              value={message}
+              onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                this.handleBasic('message')(e.target.value)
+              }
+            />
           </div>
-          <div>
-            <select value={animation} onChange={this.handleAnimation}>
-              {ANIMATION.map(anime => (
-                <option key={anime} value={anime}>
-                  {anime}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div>
+          <Entity
+            name="Position"
+            entity={position}
+            handleChange={this.handleBasic('position')}
+          />
+          <Entity
+            name="Animation"
+            entity={animation}
+            handleChange={this.handleBasic('animation')}
+          />
+          <Entity
+            name="Type"
+            entity={type}
+            handleChange={this.handleBasic('type')}
+          />
+          <div className="entity">
+            <h2 className="sub_header">Timeout</h2>
             <input
               type="number"
               id="timeout"
@@ -111,11 +124,12 @@ class App extends Component<{}, AppState> {
               value={timeout}
               onChange={this.handleTimeout}
             />
-            <label htmlFor="timeout">timeout</label>
+            <p>* 0 to disable timeout</p>
           </div>
-          <div>
+          <div className="entity">
+            <h2 className="sub_header">Options</h2>
             {CHECK.map(check => (
-              <Fragment key={check}>
+              <div className="item" key={check}>
                 <input
                   type="checkbox"
                   id={check}
@@ -123,14 +137,19 @@ class App extends Component<{}, AppState> {
                   checked={this.state[check as keyof Pick<AppState, CheckType>]}
                   onChange={this.handleCheck(check)}
                 />
-                <label htmlFor={check}>{check}</label>
-              </Fragment>
+                <label>{check}</label>
+              </div>
             ))}
           </div>
+        </div>
+        <div className="actions">
           <button onClick={this.notify}>Noti!</button>
           <button onClick={this.closeAll}>Close All</button>
+        </div>
+        <div className={`relative_container ${disablePortal && 'active'}`}>
+          {disablePortal && 'NotiPortal is here!'}
           <Noti.NotiPortal notifier={notifier} disablePortal={disablePortal} />
-        </header>
+        </div>
       </div>
     );
   }

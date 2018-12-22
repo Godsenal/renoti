@@ -28,6 +28,7 @@ export interface NotiType {
   renderNoti?: (closeNoti: () => void) => ReactNode;
   showCloseBtn?: boolean;
   style?: Interpolation;
+  onClose?: () => void;
 }
 // Seperate noti by position
 export type Noties = Record<Position, NotiType[]>;

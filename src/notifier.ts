@@ -1,4 +1,6 @@
-import { NotiType, Listener } from './types';
+import * as check from './helper/check';
+import { changeColor } from './helper/color';
+import { NotiType, Listener, Type } from './types';
 
 function createNotifier(init?: Partial<NotiType>) {
   let id = 0;
@@ -29,14 +31,23 @@ function createNotifier(init?: Partial<NotiType>) {
     });
   }
   function notify(noti: Partial<NotiType>) {
-    const mergedNoti = {
+    const newNoti = {
       ...baseNoti,
       id: id++,
       ...noti,
     };
-    noties = [...noties, mergedNoti];
+    if (!check.checkType(newNoti.type)) {
+      newNoti.type = baseNoti.type;
+    }
+    if (!check.checkPosition(newNoti.position)) {
+      newNoti.position = baseNoti.position;
+    }
+    noties = [...noties, newNoti];
     inform();
-    return mergedNoti.id;
+    return newNoti.id;
+  }
+  function changeTypeColor(type: Type, color: string) {
+    changeColor(type, color);
   }
   function closeNoti(notiId: number) {
     noties = noties.filter(noti => noti.id !== notiId);
@@ -51,6 +62,7 @@ function createNotifier(init?: Partial<NotiType>) {
     getNoties,
     listen,
     notify,
+    changeTypeColor,
     closeNoti,
     closeAll,
   };

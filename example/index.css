@@ -1,11 +1,95 @@
 body {
   width: 100vw;
   height: 100vh;
-  overflow: hidden;
+  overflow-y: auto;
 
   display: flex;
   align-items: center;
   justify-content: center;
+
+  color: #fefefe;
+  background-color: #2e2e2e;
+}
+label {
+  font-weight: 600;
+  margin-left: 10px;
+}
+button {
+  margin-right: 10px;
+  min-width: 120px;
+  padding: 0.5rem 1rem;
+  outline: none;
+  border: none;
+  cursor: pointer;
+  color: rgb(249, 116, 138);
+  background-color: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+}
+button:hover {
+  opacity: 0.7;
+  transition: opacity 0.3s;
+}
+button:active {
+  opacity: 0.5;
+  transition: opacity 0.3s;
+}
+h1 {
+  color: rgb(249, 116, 138);
+}
+#root {
+  width: 100%;
+  height: 100%;
+  margin-top: 1rem;
+}
+.container {
+}
+.title {
+  text-align: center;
+  font-size: 3em;
+}
+.entities {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  background-color: #2e2e2e;
+  margin: 1rem;
+  padding: 0.5rem 1rem;
+  border-radius: 10px;
+}
+.actions {
+  text-align: center;
+}
+.entity {
+  margin: 1rem;
+}
+.fullwidth {
+  width: 100%;
+}
+.center {
+  text-align: center;
+}
+.item {
+  display: block;
+}
+.message {
+  min-width: 200px;
+  margin: auto;
+  font-size: 1.5em;
+  outline: none;
+  border: none;
+  border-bottom: 1px solid rgb(249, 116, 138);
+  color: #fefefe;
+  background: transparent;
+  text-align: center;
+}
+.relative_container {
+  position: relative;
+  width: 400px;
+  height: 300px;
+  overflow: hidden;
+}
+.relative_container.active {
+  border: 1px solid #fefefe;
 }
 @keyframes slide-left-start {
   0% {
@@ -19,22 +103,18 @@ body {
 }
 @keyframes slide-left-end {
   0% {
-    transform: translateX(-1000px);
-    opacity: 0;
-  }
-  100% {
     transform: translateX(0);
     opacity: 1;
   }
+  100% {
+    transform: translateX(-1000px);
+    opacity: 0;
+  }
 }
 
-.slide_left {
-  opacity: 0;
-  transform: translateX(-1000px);
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+.slide_left_start {
+  animation: slide-left-start 0.3s ease-in-out;
 }
-.slide_left_mounted {
-  opacity: 1;
-  transform: translateX(0px);
-  transition: opacity 0.3s ease-in-out, transform 0.3s ease-in-out;
+.slide_left_end {
+  animation: slide-left-end 0.3s ease-in-out;
 }

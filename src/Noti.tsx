@@ -3,6 +3,7 @@ import { css } from '@emotion/core';
 import { NotiType, Type } from './types';
 import { Notifier } from './notifier';
 import { NotiPortalProps } from './NotiPortal';
+import { getColor } from './helper/color';
 import './animation.css';
 
 const baseWrapper = css`
@@ -14,18 +15,13 @@ const baseContainer = css`
   min-height: 40px;
   display: flex;
   align-items: center;
+  overflow: hidden;
   padding: 20px;
   color: white;
   cursor: pointer;
 `;
 const baseType = (type: Type) => css`
-  background-color: ${type === 'success'
-    ? '#065dec'
-    : type === 'error'
-    ? '#fa081f'
-    : type === 'warning'
-    ? '#f6ad0d'
-    : '#1dd362'};
+  background-color: ${getColor(type)};
 `;
 const baseClose = css`
   position: absolute;
@@ -36,7 +32,6 @@ const baseClose = css`
 type NotiProps = NotiType & Notifier & Partial<NotiPortalProps>;
 class Noti extends React.Component<NotiProps> {
   state = {
-    mounted: false,
     timeout: false,
   };
   timer: number = 0;
@@ -47,9 +42,6 @@ class Noti extends React.Component<NotiProps> {
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
         if (this.props.timeout > 0) {
-          this.setState({
-            mounted: true,
-          });
           this.timer = window.setTimeout(
             this.handleTimeout,
             this.props.timeout,
@@ -67,17 +59,13 @@ class Noti extends React.Component<NotiProps> {
     this.unmounted = true;
   }
   getBaseProps = () => {
-    const { mounted, timeout } = this.state;
+    const { timeout } = this.state;
     const { animation, pauseOnHover, closeOnClick } = this.props;
     let props = {
       className: `${
-        timeout
-          ? `${animation}_unmounted`
-          : mounted
-          ? `${animation}_mounted`
-          : ''
+        timeout ? `${animation}_end` : `${animation}_start`
       } ${animation}`,
-      onTransitionEnd: this.handleAnimationEnd,
+      onAnimationEnd: this.handleAnimationEnd,
       onClick: closeOnClick ? this.handleTimeout : undefined,
       onMouseEnter: pauseOnHover ? this.handleHover : undefined,
       onMouseLeave: pauseOnHover ? this.handleUnHover : undefined,
@@ -109,7 +97,8 @@ class Noti extends React.Component<NotiProps> {
     }
   };
   close = () => {
-    const { closeNoti, id } = this.props;
+    const { closeNoti, id, onClose } = this.props;
+    onClose && onClose();
     closeNoti(id);
   };
   render() {
