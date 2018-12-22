@@ -10,7 +10,7 @@ module.exports = {
   output: {
     ...common.output,
     path: path.resolve(__dirname, 'docs'),
-    publicPath: '/docs',
+    publicPath: '',
     filename: '[name].[chunkhash].js',
   },
   plugins: [
