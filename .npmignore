@@ -1,0 +1,14 @@
+# editor
+.vscode
+# source
+src
+# page
+docs
+# devlopment
+example
+.babelrc
+.tsconfig.json
+webpack*
+#liniting
+tslint*
+.prettierrc
