@@ -5,6 +5,7 @@
   "main": "src",
   "scripts": {
     "start": "webpack-dev-server --config ./webpack.config.dev.js --hot",
+    "build": "webpack --config ./webpack.config.prod.js",
     "test": "echo \"Error: no test specified\" && exit 1",
     "transpile": "tsc",
     "storybook": "start-storybook -p 6006"
