@@ -1,4 +1,5 @@
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -6,9 +7,9 @@ module.exports = {
   resolve: {
     extensions: ['.tsx', '.ts', '.js', '.json'],
   },
-  entry: path.resolve(process.cwd(), 'example', 'index.tsx'),
+  entry: path.resolve(__dirname, 'example', 'index.tsx'),
   output: {
-    path: path.resolve(process.cwd(), 'example'),
+    path: path.resolve(__dirname, 'example'),
     publicPath: '/',
   },
   module: {
@@ -33,7 +34,10 @@ module.exports = {
   },
   plugins: [
     new HtmlWebpackPlugin({
-      template: path.resolve(process.cwd(), 'example', 'index.html'),
+      template: path.resolve(__dirname, 'example', 'index.html'),
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
 };

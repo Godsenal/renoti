@@ -1,5 +1,6 @@
 const common = require('./webpack.common');
 const path = require('path');
+const webpack = require('webpack');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 
 module.exports = {
@@ -8,7 +9,8 @@ module.exports = {
   devtool: 'source-map',
   output: {
     ...common.output,
-    path: path.resolve(process.cwd(), 'docs'),
+    path: path.resolve(__dirname, 'docs'),
+    publicPath: 'docs',
     filename: '[name].[chunkhash].js',
   },
   plugins: [
@@ -27,6 +29,9 @@ module.exports = {
         minifyURLs: true,
       },
       inject: true,
+    }),
+    new webpack.DefinePlugin({
+      'process.env.NODE_ENV': JSON.stringify(process.env.NODE_ENV),
     }),
   ],
 };
