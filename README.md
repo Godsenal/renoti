@@ -111,7 +111,8 @@ notifier.notify({
 ## Api
 
 **NotiOptions**
-| Option       |                                         type                                          |  default   |
+
+| option       |                                         type                                          |  default   |
 | ------------ | :-----------------------------------------------------------------------------------: | :--------: |
 | message      |                                        string                                         |  'hello!   |
 | timeout      |                                        number                                         |    3000    |
@@ -134,6 +135,7 @@ const notifier = createNotifier({ message: 'default message', position: 'bottom-
 **NotiPortal**
 
 props
+
 | props          | description                                                                                           |
 | -------------- | ----------------------------------------------------------------------------------------------------- |
 | notifier       | notifier instance created by `createNotifier`                                                         |
