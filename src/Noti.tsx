@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { PureComponent } from 'react';
 import { css } from '@emotion/core';
 import { NotiType, Type } from './types';
 import { Notifier } from './notifier';
@@ -6,6 +6,10 @@ import { NotiPortalProps } from './NotiPortal';
 import { getColor } from './helper/color';
 import './animation.css';
 
+/*
+  Noti 제거 flow
+  timeout OR close -> handleTimeout 호출 (timeout = true) -> animation_end 실행 -> animation 종료 후 onAnimationEnd 실행 -> noti 제거
+*/
 const baseWrapper = css`
   width: 100%;
   margin-bottom: 1rem;
@@ -30,7 +34,7 @@ const baseClose = css`
   cursor: pointer;
 `;
 type NotiProps = NotiType & Notifier & Partial<NotiPortalProps>;
-class Noti extends React.Component<NotiProps> {
+class Noti extends PureComponent<NotiProps> {
   state = {
     timeout: false,
   };
@@ -38,6 +42,7 @@ class Noti extends React.Component<NotiProps> {
   newTime: number = this.props.timeout; // reset time by pausing
   pauseTime: number = Date.now(); // elapsed time before pause
   unmounted = false;
+  // mount 애니메이션을 위한 raf
   componentDidMount() {
     window.requestAnimationFrame(() => {
       window.requestAnimationFrame(() => {
@@ -50,6 +55,7 @@ class Noti extends React.Component<NotiProps> {
       });
     });
   }
+  // close시 animation을 위해 바로 unmount하지 않고 handletimeout 호출
   componentDidUpdate = (prevProps: NotiProps) => {
     if (this.props.close && prevProps.close !== this.props.close) {
       this.handleTimeout();

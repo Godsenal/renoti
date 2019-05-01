@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { memo } from 'react';
 import { NotiType, Noties, Position } from './types';
 import Noti from './Noti';
 import { Notifier } from './notifier';
@@ -86,4 +86,4 @@ const NotiFactory: React.SFC<NotiFactoryProps & Notifier> = ({
   );
 };
 
-export default NotiFactory;
+export default memo(NotiFactory);
