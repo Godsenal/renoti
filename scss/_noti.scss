@@ -1,0 +1,35 @@
+.#{rn}__noti_container {
+  width: 100%;
+  margin-bottom: 1rem;
+}
+
+.#{rn}__noti {
+  position: relative;
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
+  padding: 20px;
+  color: white;
+  cursor: pointer;
+
+  &_default {
+    background-color: $rn-color-default;
+  }
+  &_success {
+    background-color: $rn-color-success;
+  }
+  &_warning {
+    background-color: $rn-color-warning;
+  }
+  &_error {
+    background-color: $rn-color-error;
+  }
+}
+
+.#{rn}__noti_close_btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  cursor: pointer;
+}

@@ -1,4 +1,5 @@
 import React, { memo } from 'react';
+import cx from 'classnames';
 import { NotiType, Noties, Position } from './types';
 import Noti from './Noti';
 import { Notifier } from './notifier';
@@ -62,19 +63,28 @@ const NotiFactory: React.SFC<NotiFactoryProps & Notifier> = ({
       {Object.keys(notiByPos).map(position => {
         const parsedPos = position.split('-');
         const assertion = position as Position;
+        // when user set width manually
+        const notDefaultWidth =
+          typeof width === 'number' ? width + 'px' : width;
+        const notDefaultWidthStyle =
+          width !== 300
+            ? {
+                width: notDefaultWidth,
+                marginLeft: `calc(${notDefaultWidth} / -2)`,
+              }
+            : undefined;
         if (notiByPos[assertion].length <= 0) {
           return null;
         }
         return (
           <div
             key={position}
-            css={css`
-              ${base(width)}
-              ${disablePortal && withoutPortal}
-              ${positionCSS[parsedPos[0]]}
-              ${positionCSS[parsedPos[1]]}
-              ${parsedPos[1] === 'center' && centering(width)}
-            `}
+            className={cx(
+              `Renoti__noti_factory${disablePortal && '_without_portal'}`,
+              `Renoti__${parsedPos[0]}`,
+              `Renoti__${parsedPos[1]}`,
+            )}
+            style={notDefaultWidthStyle}
           >
             {notiByPos[assertion].map(noti => (
               <Noti key={noti.id} {...noti} {...props} />

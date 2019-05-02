@@ -1,0 +1,26 @@
+@keyframes #{rn}__slide-start {
+  0% {
+    transform: translateY(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes #{rn}__slide-end {
+  0% {
+    transform: translateY(-1000px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+.#{rn}__slide_start {
+  animation: slide-start 0.3s;
+}
+.#{rn}__slide_end {
+  animation: slide-end 0.3s reverse;
+}

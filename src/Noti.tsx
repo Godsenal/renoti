@@ -1,4 +1,5 @@
 import React, { PureComponent } from 'react';
+import cx from 'classnames';
 import { css } from '@emotion/core';
 import { NotiType, Type } from './types';
 import { Notifier } from './notifier';
@@ -68,9 +69,11 @@ class Noti extends PureComponent<NotiProps> {
     const { timeout } = this.state;
     const { animation, pauseOnHover, closeOnClick } = this.props;
     let props = {
-      className: `${
-        timeout ? `${animation}_end` : `${animation}_start`
-      } ${animation}`,
+      className: cx(
+        `${
+          timeout ? `Renoti__${animation}_end` : `Renoti__${animation}_start`
+        } Renoti__${animation}`,
+      ),
       onAnimationEnd: this.handleAnimationEnd,
       onClick: closeOnClick ? this.handleTimeout : undefined,
       onMouseEnter: pauseOnHover ? this.handleHover : undefined,
@@ -109,20 +112,18 @@ class Noti extends PureComponent<NotiProps> {
   };
   render() {
     const { style, message, renderNoti, type, showCloseBtn } = this.props;
+    const { className, ...baseProps } = this.getBaseProps();
     return (
-      <div css={baseWrapper} {...this.getBaseProps()}>
+      <div className={cx('Renoti__noti_container', className)} {...baseProps}>
         {renderNoti ? (
           renderNoti(this.handleTimeout)
         ) : (
-          <div
-            css={css`
-              ${baseContainer}
-              ${baseType(type)}
-              ${css(style)}
-            `}
-          >
+          <div className={cx(`Renoti__noti_${type}`)} style={style}>
             {showCloseBtn && (
-              <div css={baseClose} onClick={this.handleTimeout}>
+              <div
+                className={cx('Renoti__noti_close_btn')}
+                onClick={this.handleTimeout}
+              >
                 x
               </div>
             )}

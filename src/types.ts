@@ -1,4 +1,4 @@
-import { ReactNode } from 'react';
+import { ReactNode, CSSProperties } from 'react';
 import { Interpolation } from '@emotion/css';
 // Default notifiaction type
 /*
@@ -27,7 +27,7 @@ export interface NotiType {
   pauseOnHover?: boolean;
   renderNoti?: (closeNoti: () => void) => ReactNode;
   showCloseBtn?: boolean;
-  style?: Interpolation;
+  style?: CSSProperties | undefined;
   onClose?: () => void;
 }
 // Seperate noti by position
