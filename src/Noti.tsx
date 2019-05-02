@@ -1,39 +1,13 @@
 import React, { PureComponent } from 'react';
 import cx from 'classnames';
-import { css } from '@emotion/core';
-import { NotiType, Type } from './types';
+import { NotiType } from './types';
 import { Notifier } from './notifier';
 import { NotiPortalProps } from './NotiPortal';
-import { getColor } from './helper/color';
-import './animation.css';
 
 /*
   Noti 제거 flow
   timeout OR close -> handleTimeout 호출 (timeout = true) -> animation_end 실행 -> animation 종료 후 onAnimationEnd 실행 -> noti 제거
 */
-const baseWrapper = css`
-  width: 100%;
-  margin-bottom: 1rem;
-`;
-const baseContainer = css`
-  position: relative;
-  min-height: 40px;
-  display: flex;
-  align-items: center;
-  overflow: hidden;
-  padding: 20px;
-  color: white;
-  cursor: pointer;
-`;
-const baseType = (type: Type) => css`
-  background-color: ${getColor(type)};
-`;
-const baseClose = css`
-  position: absolute;
-  top: 5px;
-  right: 5px;
-  cursor: pointer;
-`;
 type NotiProps = NotiType & Notifier & Partial<NotiPortalProps>;
 class Noti extends PureComponent<NotiProps> {
   state = {
@@ -118,7 +92,10 @@ class Noti extends PureComponent<NotiProps> {
         {renderNoti ? (
           renderNoti(this.handleTimeout)
         ) : (
-          <div className={cx(`Renoti__noti_${type}`)} style={style}>
+          <div
+            className={cx('Renoti__noti', `Renoti__noti_${type}`)}
+            style={style}
+          >
             {showCloseBtn && (
               <div
                 className={cx('Renoti__noti_close_btn')}

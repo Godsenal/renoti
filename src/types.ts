@@ -1,5 +1,4 @@
 import { ReactNode, CSSProperties } from 'react';
-import { Interpolation } from '@emotion/css';
 // Default notifiaction type
 /*
   id: Noti unique id

@@ -1,4 +1,4 @@
-@keyframes #{rn}__flip-start {
+@keyframes #{$rn}__flip-start {
   0% {
     transform: rotateX(80deg);
     opacity: 0;
@@ -8,7 +8,7 @@
     opacity: 1;
   }
 }
-@keyframes #{rn}__flip-end {
+@keyframes #{$rn}__flip-end {
   0% {
     transform: rotateX(80deg);
     opacity: 0;
@@ -18,9 +18,10 @@
     opacity: 1;
   }
 }
-.#{rn}__flip_start {
-  animation: flip-start cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s;
+.#{$rn}__flip_start {
+  animation: #{$rn}__flip-start cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s;
 }
-.#{rn}__flip_end {
-  animation: flip-end cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s reverse;
+.#{$rn}__flip_end {
+  animation: #{$rn}__flip-end cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s
+    reverse;
 }

@@ -1,5 +1,4 @@
 import * as check from './helper/check';
-import { changeColor } from './helper/color';
 import { NotiType, Listener, Type } from './types';
 
 function createNotifier(init?: Partial<NotiType>) {
@@ -46,9 +45,6 @@ function createNotifier(init?: Partial<NotiType>) {
     inform();
     return newNoti.id;
   }
-  function changeTypeColor(type: Type, color: string) {
-    changeColor(type, color);
-  }
   function closeNoti(notiId: number) {
     noties = noties.filter(noti => noti.id !== notiId);
     inform();
@@ -62,7 +58,6 @@ function createNotifier(init?: Partial<NotiType>) {
     getNoties,
     listen,
     notify,
-    changeTypeColor,
     closeNoti,
     closeAll,
   };

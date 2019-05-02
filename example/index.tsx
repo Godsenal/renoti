@@ -2,6 +2,7 @@ import React, { Component, CSSProperties } from 'react';
 import ReactDOM from 'react-dom';
 import { Entity } from './components';
 import * as Noti from '../src';
+import '../scss/main.scss';
 import './index.css';
 
 const notifier = Noti.createNotifier();

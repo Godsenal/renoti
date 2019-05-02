@@ -1,9 +1,9 @@
-.#{rn}__noti_container {
+.#{$rn}__noti_container {
   width: 100%;
   margin-bottom: 1rem;
 }
 
-.#{rn}__noti {
+.#{$rn}__noti {
   position: relative;
   min-height: 40px;
   display: flex;
@@ -27,7 +27,7 @@
   }
 }
 
-.#{rn}__noti_close_btn {
+.#{$rn}__noti_close_btn {
   position: absolute;
   top: 5px;
   right: 5px;

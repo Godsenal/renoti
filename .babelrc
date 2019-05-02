@@ -1,9 +1,4 @@
 {
-  "presets": [
-    "@babel/env",
-    "@babel/react",
-    "@babel/typescript",
-    ["@emotion/babel-preset-css-prop", { "sourceMap": false }]
-  ],
+  "presets": ["@babel/env", "@babel/react", "@babel/typescript"],
   "plugins": ["@babel/plugin-proposal-class-properties"]
 }
