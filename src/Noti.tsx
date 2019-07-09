@@ -66,6 +66,8 @@ class Noti extends PureComponent<NotiProps> {
   };
   handleUnHover = () => {
     this.newTime = this.newTime - this.pauseTime;
+    this.pauseTime = Date.now();
+    console.log(this.newTime, this.pauseTime);
     this.timer = window.setTimeout(this.handleTimeout, this.newTime);
   };
   handleTimeout = () => {
